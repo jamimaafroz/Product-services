@@ -8,36 +8,37 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const navItem = (href, label) => (
-    <li>
+    <li key={href}>
       <Link
         href={href}
         className={`${
           pathname === href
-            ? "text-primary font-semibold"
-            : "hover:text-primary"
-        }`}
+            ? "text-green-800 font-semibold"
+            : "hover:text-green-600"
+        } transition-colors`}
       >
         {label}
       </Link>
     </li>
   );
 
-  const links = (
-    <>
-      {navItem("/", "Home")}
-      {navItem("/products", "Products")}
-      {navItem("/sales", "Sales")}
-      {navItem("/contact", "Contact")}
-      {navItem("/dashboard", "dashboard")}
-    </>
-  );
+  const linksArray = [
+    { href: "/", label: "Home" },
+    { href: "/products", label: "Products" },
+    { href: "/sales", label: "Sales" },
+    { href: "/contact", label: "Contact" },
+    { href: "/dashboard", label: "Dashboard" },
+  ];
 
   return (
-    <div className="navbar bg-base-100 shadow-md sticky top-0 z-50">
+    <div className="navbar bg-green-50 shadow-md sticky top-0 z-50">
       {/* Left Section */}
       <div className="navbar-start">
         <div className="dropdown">
-          <button tabIndex={0} className="btn btn-ghost lg:hidden">
+          <button
+            tabIndex={0}
+            className="btn btn-ghost lg:hidden text-green-800 hover:bg-green-100"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -55,30 +56,38 @@ const Navbar = () => {
           </button>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow-lg bg-green-100 rounded-box w-52"
           >
-            {links}
+            {linksArray.map((link) => navItem(link.href, link.label))}
           </ul>
         </div>
-        <Link href="/" className="text-2xl font-bold text-primary">
-          Daily<span className="text-secondary">Vegs</span>
+        <Link href="/" className="text-2xl font-bold text-green-800">
+          Daily<span className="text-green-600">Vegs</span>
         </Link>
       </div>
 
       {/* Center Section */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal space-x-4">{links}</ul>
+        <ul className="menu menu-horizontal space-x-4 text-green-800">
+          {linksArray.map((link) => navItem(link.href, link.label))}
+        </ul>
       </div>
 
       {/* Right Section */}
       <div className="navbar-end space-x-2">
-        <button className="btn btn-ghost btn-circle">
+        <button className="btn btn-ghost btn-circle text-green-800 hover:bg-green-100">
           <ShoppingCart className="h-5 w-5" />
         </button>
-        <Link href="/login" className="btn btn-ghost btn-circle">
+        <Link
+          href="/login"
+          className="btn btn-ghost btn-circle text-green-800 hover:bg-green-100"
+        >
           <User className="h-5 w-5" />
         </Link>
-        <Link href="/signup" className="btn btn-primary rounded-full px-6">
+        <Link
+          href="/signup"
+          className="btn bg-green-600 hover:bg-green-700 text-white rounded-full px-6 shadow-md transition-all duration-300"
+        >
           Get Started
         </Link>
       </div>
