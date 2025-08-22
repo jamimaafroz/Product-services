@@ -22,7 +22,7 @@ export default function LoginPage() {
       setErrorMsg(result.error);
     } else if (result.ok) {
       // Successful login, redirect manually
-      window.location.href = "/";
+      window.location.href = "/products";
     }
 
     console.log("Sign in clicked", { email, password, result });

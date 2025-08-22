@@ -3,9 +3,11 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingCart, User } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const navItem = (href, label) => (
     <li key={href}>
@@ -29,6 +31,10 @@ const Navbar = () => {
     { href: "/contact", label: "Contact" },
     { href: "/dashboard", label: "Dashboard" },
   ];
+  // Add Dashboard link only if user is logged in
+  if (session?.user) {
+    linksArray.push({ href: "/dashboard", label: "Dashboard" });
+  }
 
   return (
     <div className="navbar bg-green-50 shadow-md sticky top-0 z-50">
