@@ -9,8 +9,12 @@ export default async function ProductsPage() {
 
   return (
     <div>
-      <div>
-        <p className="font-bold text-2xl text-black p-10">Available Products</p>
+      <div className="text-center p-10 gap-3 bg-green-100">
+        <p className="font-bold text-2xl text-black ">Available Products</p>
+        <p className="text-gray-700 text-lg  ">
+          Fresh Products straignt from field to your home, Look and Buy what you
+          need!!
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-10">
         {productData.map((item) => (
