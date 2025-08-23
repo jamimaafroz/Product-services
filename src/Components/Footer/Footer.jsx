@@ -13,7 +13,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-green-50 text-gray-800 mt-12">
+    <footer className="bg-green-50 text-gray-800 p-12">
       <div className="max-w-7xl mx-auto px-6 py-12 md:flex md:justify-between md:items-start space-y-8 md:space-y-0">
         {/* Logo & Description */}
         <div className="md:w-1/3">

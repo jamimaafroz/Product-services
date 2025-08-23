@@ -2,8 +2,8 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, User } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { ShoppingCart, User, LogOut } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -29,8 +29,8 @@ const Navbar = () => {
     { href: "/products", label: "Products" },
     { href: "/sales", label: "Sales" },
     { href: "/contact", label: "Contact" },
-    { href: "/dashboard", label: "Dashboard" },
   ];
+
   // Add Dashboard link only if user is logged in
   if (session?.user) {
     linksArray.push({ href: "/dashboard", label: "Dashboard" });
@@ -84,18 +84,31 @@ const Navbar = () => {
         <button className="btn btn-ghost btn-circle text-green-800 hover:bg-green-100">
           <ShoppingCart className="h-5 w-5" />
         </button>
-        <Link
-          href="/login"
-          className="btn btn-ghost btn-circle text-green-800 hover:bg-green-100"
-        >
-          <User className="h-5 w-5" />
-        </Link>
-        <Link
-          href="/signup"
-          className="btn bg-green-600 hover:bg-green-700 text-white rounded-full px-6 shadow-md transition-all duration-300"
-        >
-          Get Started
-        </Link>
+
+        {!session?.user ? (
+          <>
+            <Link
+              href="/login"
+              className="btn btn-ghost btn-circle text-green-800 hover:bg-green-100"
+            >
+              <User className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/signup"
+              className="btn bg-green-600 hover:bg-green-700 text-white rounded-full px-6 shadow-md transition-all duration-300"
+            >
+              Get Started
+            </Link>
+          </>
+        ) : (
+          <button
+            onClick={() => signOut()}
+            className="btn bg-red-500 hover:bg-red-600 text-white rounded-full px-4 shadow-md flex items-center space-x-1"
+          >
+            <LogOut className="h-4 w-4" />
+            <span>Logout</span>
+          </button>
+        )}
       </div>
     </div>
   );

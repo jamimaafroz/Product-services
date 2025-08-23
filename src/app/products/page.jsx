@@ -2,6 +2,7 @@ import DbConnect, { collectionobj } from "@/lib/DbConnect";
 import { TbListDetails } from "react-icons/tb";
 import Link from "next/link";
 import React from "react";
+export const revalidate = 0;
 
 export default async function ProductsPage() {
   const collection = await DbConnect(collectionobj.productCollection);

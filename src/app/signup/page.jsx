@@ -1,8 +1,12 @@
 "use client";
 import React from "react";
-import { registerUser } from "../actions/auth/registerUser";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { registerUser } from "@/actions/auth/registerUser";
 
 export default function SignUpPage() {
+  const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -10,8 +14,29 @@ export default function SignUpPage() {
     const email = form[1].value;
     const password = form[2].value;
     const confirmPassword = form[3].value;
-    registerUser({ name, email, password, confirmPassword });
+
+    // 1. Register user in your DB
+    const res = await registerUser({ name, email, password, confirmPassword });
+
+    if (res?.success) {
+      // 2. Sign in automatically
+      const signInRes = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (!signInRes?.error) {
+        // 3. Redirect to home
+        router.push("/");
+      } else {
+        alert("Login failed after signup. Try logging in manually.");
+      }
+    } else {
+      alert("Signup failed. Try again.");
+    }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 px-4">
       <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8">
@@ -23,7 +48,6 @@ export default function SignUpPage() {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Full Name
@@ -35,7 +59,6 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email Address
@@ -47,7 +70,6 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Password
@@ -59,7 +81,6 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Confirm Password
@@ -71,7 +92,6 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition duration-200"
@@ -80,7 +100,6 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        {/* Extra links */}
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
           Already have an account?{" "}
           <a

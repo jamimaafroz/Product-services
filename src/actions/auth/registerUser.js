@@ -1,4 +1,5 @@
 "use server";
+
 import DbConnect, { collectionobj } from "@/lib/DbConnect";
 
 export const registerUser = async (payload) => {
